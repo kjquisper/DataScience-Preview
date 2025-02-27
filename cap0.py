@@ -164,4 +164,59 @@ def tenure_bucket(tenure):
     else:
         return "more than five"
 
+#salarios para bucket
+
+#el defaultdict simplemente tiene la ventaja de asignar una lista vacia al valor si la clave no tiene contenido
+salary_by_tenure_bucket = defaultdict(list)
+for salary, tenure in salaries_and_tenure:
+    bucket = tenure_bucket(tenure)
+    salary_by_tenure_bucket[bucket].append(salary)
+    
+""" print(salary_by_tenure_bucket)
+
+
+print(salary_by_tenure_bucket.items()) """
+
+#calculamos el salario medio por cada grupo
+average_salary_by_bucket = {
+tenure_bucket: sum(salaries) / len(salaries)
+for tenure_bucket, salaries in salary_by_tenure_bucket.items()
+}
+
+#print(average_salary_by_bucket)
+
+{'between two and five': 61500.0,
+'less than two': 48000.0,
+'more than five': 79166.66666666667}
+
+
+#years_experience = [0.7, 1.9, 2.5, 4.2, 6.0, 6.5, 7.5, 8.1, 8.7, 10.0]
+
+def predict_paid_or_unpaid(years_experience):
+    if years_experience < 3.0:
+        return "paid"
+    elif years_experience < 8.5:
+        return "unpaid"
+    else:
+        return "paid"
+
+words_and_counts = Counter(word
+                    for user, interest in interests
+                    for word in interest.lower().split())
+
+
+
+#print(words_and_counts)
+
+#print(words_and_counts.most_common())
+
+
+for word, count in words_and_counts.most_common():
+    if count > 1:
+        print(word,count)
+
+
+    
+
+    
 
