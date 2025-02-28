@@ -1,173 +1,223 @@
-""" for i in [1,2,3,4,5]:
-    print(i)
-    for j in [1,2,3,4,5]:
-        print(j)
-        print(j+i)
-    print(i)
-print("done looping") """
+users = [
+    {"id": 0, "name": "Hero"},
+    {"id": 1, "name": "Dunn"},
+    {"id": 2, "name": "Sue"},
+    {"id": 3, "name": "Chi"},
+    {"id": 4, "name": "Thor"},
+    {"id": 5, "name": "Clive"},
+    {"id": 6, "name": "Hicks"},
+    {"id": 7, "name": "Devin"},
+    {"id": 8, "name": "Kate"},
+    {"id": 9, "name": "Klein"}
+]   
 
 
+friendship_pairs = [(0,1), (0,2), (1,2), (1,3), (2,3), (3,4),
+                    (4,5), (5,6), (5,7), (6,8), (7,8), (8,9)]
 
-""" two_plus_three = 2 * 3
-                
-                
-print(two_plus_three) """
+friendship ={user["id"]: [] for user in users}
 
-""" for i in [1, 2, 3, 4, 5]:
-# observe la línea en blanco
-    print(i) """
+#print("lista de amigos",friendship)
+
+for i,j in friendship_pairs:
+    friendship[i].append(j)
+    friendship[j].append(i)
+    #print(i,j)
+    #print(friendship)
     
-#MODULOS EN PYTHON
 
-
-""" import re
-my_regex = re.compile("[0-9]+",re.I)
-
-import re as regex
-my_regex = regex.compile("[0-9]+", regex.I) """
-
-
-""" match = 10
-import re as regex
-
-print(regex.match)
-print(match) """
-
-
-def double(x):
-    return x*2
-
-
-def apply_to_one(f):
-    return f(1)
-my_double = double
-
-x = apply_to_one(my_double)
-#print(x)
-
-
-y = apply_to_one(lambda x:x+4)  # es igual a 5
-
-
-#print(y)
-
-
-suma = lambda x, y: x + y
-#print(suma(3, 5))  # Salida: 8
-
-
-def my_print(message = "mi mensaje 1",mmsd = "mi mensaje 2"):
-    #print(message)
-    return message + mmsd
+#print("lista de amigos",friendship)    
     
-""" 
-print(my_print("holamundo","soy"))
-print(my_print())
- """
+#cual es el numero medio de conexiones
+
+def number_of_friends(user):
+    """cuantos amigos tiene el usuario"""
+    user_id = user["id"]
+    friend_id = friendship[user_id]
+    return len(friend_id)
 
 
-tab_string = "\t"
-
-#print(len(tab_string))
+total_connections = sum(number_of_friends(user) for user in users)
 
 
-first_name = "joel"
-last_name = "mamani"
+num_users = len(users)
 
-full_name = first_name + last_name
-full_name2 = "{0} {1}".format(first_name,last_name)
-full_name3 = f"{first_name} {last_name}"
-#print(full_name3)
+avg_connecction = total_connections / num_users
 
-
-""" try:
-    print(0/0)
-except ZeroDivisionError:
-    print("cannot divide by zero") """
-
-
-x = [0,1,2,3,5,6,7,8,9,10]
-
-#print(x)
-""" print(x[0])
-
-x[0] = 11
-
-print(x[0]) """
-
-#print(x[1:8:7])
-
-#para verificar si el elemento estan en la lista
-
-#print(1 in x)
-
-
-#extend debe ser en corchetes
-#x.extend([12])
-
-#print(x[-1])
-
-empty_dic = {}
-empty_dic2 = dict()
-
-grades = {"joel":13, "pedro":15}
-
-#print(grades["joel"])
-
-
-#para evitar un exceperror podemos programar el mensaje que se mostrara cuando comentamos el erro
-
-""" try:
-    print(grades["kate"])
-except:
-    print("Kate no esta en el diccionario") """
+#print(avg_connecction)
 
 
 
-joel_has_grade = "joel" in grades
-kate_has_grade = "Kate" in grades
-#print(joel_has_grade)
-#print(kate_has_grade)
+def foaf_ids_users(user):
+    return [foaf_id
+            for friend_id in friendship[user["id"]]
+            for foaf_id in friendship[friend_id]
+            ]
+    
+
+#print(foaf_ids_users(users[0]))
+
+#print(friendship[0])
 
 
-from collections import Counter
+#exluimos gente ya conocida por el usuario
 
-c = Counter([0, 1, 2, 0])
-#print(c)
+from collections import Counter # no cargado inicialmente
 
-if 1 > 2:
-    message = "if only 1 were greater than two..."
-elif 1 > 3:
-    message = "elif stands for ‘else if’"
-else:
-    message = "when all else fails use else (if you want to)"
-
-
-for x in range(10):
-    if x == 3:
-        continue
-    if x ==5:
-        break
-
-    #print(x)
+def friends_of_friends(user):
+    user_id = user["id"]
+    return Counter(
+        foaf_id
+        for friend_id in friendship[user_id] # Para cada uno de mis amigos,
+        for foaf_id in friendship[friend_id] # encuentra sus amigos
+        if foaf_id != user_id # que no son yo
+        and foaf_id not in
+        friendship[user_id]# y no son mis amigos
+    )
+    
+#print(friends_of_friends(users[3]))
 
 
-#x = None
-#assert x = None
+interests = [
+    (0, "Hadoop"), (0, "Big Data"), (0, "HBase"), (0, "Java"),
+    (0, "Spark"), (0, "Storm"), (0, "Cassandra"),
+    (1, "NoSQL"), (1, "MongoDB"), (1, "Cassandra"), (1, "HBase"),
+    (1, "Postgres"), (2, "Python"), (2, "scikit-learn"), (2, "scipy"),
+    (2, "numpy"), (2, "statsmodels"), (2, "pandas"), (3, "R"), (3, "Python"),
+    (3, "statistics"), (3, "regression"), (3, "probability"),
+    (4, "machine learning"), (4, "regression"), (4, "decision trees"),
+    (4, "libsvm"), (5, "Python"), (5, "R"), (5, "Java"), (5, "C++"),
+    (5, "Haskell"), (5, "programming languages"), (6, "statistics"),
+    (6, "probability"), (6, "mathematics"), (6, "theory"),
+    (7, "machine learning"), (7, "scikit-learn"), (7, "Mahout"),
+    (7, "neural networks"), (8, "neural networks"), (8, "deep learning"),
+    (8, "Big Data"), (8, "artificial intelligence"), (9, "Hadoop"),
+    (9, "Java"), (9, "MapReduce"), (9, "Big Data")
+]
 
-""" s = some_function_that_returns_a_string()
-if s:
-    first_char = s[0]
-else:
-    first_char = "" """
+def data_scientists_who_like(target_interest):
+    """Find the ids of all users who like the target interest."""
+    return [user_id
+    for user_id, user_interest in interests
+    if user_interest == target_interest]
+
+
+#print(data_scientists_who_like(interests[0][1]))
+
+
+#de intereses a usuarios
+from collections import defaultdict
+# Las claves son intereses, los valores son listas de user_ids con ese interés
+user_ids_by_interest = defaultdict(list)
+for user_id, interest in interests:
+    user_ids_by_interest[interest].append(user_id)
+    
+    
+#print(user_ids_by_interest)
+
+
+# de usuarios a intereses
+
+# Las claves son user_ids, los valores son listas de intereses para ese user_id
+interests_by_user_id = defaultdict(list)
+for user_id, interest in interests:
+    interests_by_user_id[user_id].append(interest)
+    
+    
+print("\n")
+#print(interests_by_user_id)
+    
+def most_common_interests_with(user):
+    return Counter( 
+        interested_user_id
+        for interest in interests_by_user_id[user["id"]]
+        for interested_user_id in user_ids_by_interest[interest]
+        if interested_user_id != user["id"]
+)
+
+
+#print(most_common_interests_with(users[0]))
+#---------------------------------------------------------------------------------------------------------------------------
+
+salaries_and_tenure = [(83000, 8.7), (88000, 8.1),
+                       (48000, 0.7), (76000, 6),
+                       (69000, 6.5), (76000, 7.5),
+                       (60000, 2.5), (83000, 10),
+                       (48000, 1.9), (63000, 4.2)]
+
+salary_by_tenure = defaultdict(list)
+
+for salary, tenure in salaries_and_tenure:
+    salary_by_tenure[tenure].append(salary)
+    average_salary_by_tenure = {tenure: sum(salaries) / len(salaries) for tenure, salaries in salary_by_tenure.items() }
+    
+    
+    
+    
+#print(salary_by_tenure,"\n",average_salary_by_tenure)
+#no es util puesto que solo hay un salario por año de antiguedad
+
+def tenure_bucket(tenure):
+    if tenure < 2:
+        return "less than two"
+    elif tenure < 5:
+        return "between two and five"
+    else:
+        return "more than five"
+
+#salarios para bucket
+
+#el defaultdict simplemente tiene la ventaja de asignar una lista vacia al valor si la clave no tiene contenido
+salary_by_tenure_bucket = defaultdict(list)
+for salary, tenure in salaries_and_tenure:
+    bucket = tenure_bucket(tenure)
+    salary_by_tenure_bucket[bucket].append(salary)
+    
+""" print(salary_by_tenure_bucket)
+
+
+print(salary_by_tenure_bucket.items()) """
+
+#calculamos el salario medio por cada grupo
+average_salary_by_bucket = {
+tenure_bucket: sum(salaries) / len(salaries)
+for tenure_bucket, salaries in salary_by_tenure_bucket.items()
+}
+
+#print(average_salary_by_bucket)
+
+{'between two and five': 61500.0,
+'less than two': 48000.0,
+'more than five': 79166.66666666667}
+
+
+#years_experience = [0.7, 1.9, 2.5, 4.2, 6.0, 6.5, 7.5, 8.1, 8.7, 10.0]
+
+def predict_paid_or_unpaid(years_experience):
+    if years_experience < 3.0:
+        return "paid"
+    elif years_experience < 8.5:
+        return "unpaid"
+    else:
+        return "paid"
+
+words_and_counts = Counter(word
+                    for user, interest in interests
+                    for word in interest.lower().split())
 
 
 
-#print(x)
+#print(words_and_counts)
 
-# comprension de listas
+#print(words_and_counts.most_common())
 
-even_numbers = [x for x in range(5) if x % 2 == 0] 
-squares = [x * x for x in range(5)] 
-even_squares = [x * x for x in even_numbers]
+
+for word, count in words_and_counts.most_common():
+    if count > 1:
+        print(word,count)
+
+
+    
+
+    
 
