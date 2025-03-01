@@ -362,8 +362,119 @@ not re.search("c", "dog"), # ‘dog’ no contiene una ‘c’.
 
 """EMPQUETADOS Y DESEMPAQUETADOS DE ARGUMENTOS"""
 
-list1 = ['a', 'b', 'c']
+""" list1 = ['a', 'b', 'c']
 list2 = [1,2,3]
 
 [print(pair) for pair in zip(list1, list2)] 
+
+pairs = [('a', 1), ('b', 2), ('c', 3)]
+letters, numbers = zip(*pairs) """
+
+
+""" def add(a,b): return a+b
+#add(1,2)
+
+try:
+    add([1,2])
+except TypeError:
+    print("agregar excepciones de 2 inpus")
+    
+add(*[1,2]) """
+
+
+"""ARGS Y KWARGS"""
+
+def double(f):
+    def g(x):
+        return 2*f(x)
+    return g
+
+
+
+def f1(x):
+    return x + 1
+g = double(f1)
+
+assert g(3) == 8, "(3 + 1) * 2 should equal 8"
+assert g(-1) == 0, "(-1 + 1) * 2 should equal 0"
+
+def f2(x, y):
+    return x + y
+g = double(f2)
+
+
+
+
+def magic(*args, **kwargs):
+    print("unnamed args:", args)
+    print("unnamed args:", kwargs)
+
+
+#magic(1, 2, key="word", key2="word2")
+
+def other_magic(x, y, z):
+    return x + y +z
+x_y_list = [1,2]
+z_dict = {"z":3}
+assert other_magic(*x_y_list, **z_dict) == 6
+
+# la funcion recie el valor desempaquetado de la lista antes de la lista mismas y  trabaja con esos valores
+
+
+def doubler_correct(f):
+    """works no matter what kind of inputs f expects"""
+    def g(*args, **kwargs):
+ 
+        return 2 * f(*args, **kwargs)
+    return g
+g = doubler_correct(f2)
+assert g(1, 2) == 6, "doubler should work now"
+
+
+"""ANOTACIONES DE TIPO"""
+
+
+""" def add(a,b):    
+    return a+b
+
+assert add(10, 5) == 15, "+ is valid for numbers"
+assert add([1, 2], [3]) == [1, 2, 3], "+ is valid for lists"
+assert add("hi ", "there") == "hi there", "+ is valid for strings" """
+
+
+""" try:    
+    add("ten","five")
+except TypeError:
+    print("no es posible sumar los elementos")
+ """
+
+
+def add(a:int , b:int) -> int:
+    return a+b
+add(10,5)
+add("hola","mundo")
+
+def total(xs: list) -> float:
+    return sum(total)
+
+from typing import List
+def total(xs: List[int]) -> int:
+    return sum(total)
+
+values = []
+best_so_fa = None
+
+from typing import Optional
+values: List[int] = []
+best_so_far : Optional[float] = None
+
+from typing import Dict, Iterable, Tuple
+counts: Dict[str, int] = {'data':1, 'science':2 }
+
+""" if lazy:
+    evens: Iterable[int] = (x for x in range(10) in x % 2 == 0)
+else:
+    evens = [0,2,4,6,8] """
+    
+    
 
