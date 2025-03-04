@@ -109,8 +109,8 @@ def data_scientists_who_like(target_interest):
 from collections import defaultdict
 # Las claves son intereses, los valores son listas de user_ids con ese interés
 user_ids_by_interest = defaultdict(list)
-for user_id, interest in interests:
-    user_ids_by_interest[interest].append(user_id)
+""" for user_id, interest in interests:
+    user_ids_by_interest[interest].append(user_id) """
     
     
 #print(user_ids_by_interest)
@@ -173,10 +173,10 @@ for salary, tenure in salaries_and_tenure:
     bucket = tenure_bucket(tenure)
     salary_by_tenure_bucket[bucket].append(salary)
     
-""" print(salary_by_tenure_bucket)
+print(salary_by_tenure_bucket)
 
 
-print(salary_by_tenure_bucket.items()) """
+#print(salary_by_tenure_bucket.items())
 
 #calculamos el salario medio por cada grupo
 average_salary_by_bucket = {
@@ -191,7 +191,7 @@ for tenure_bucket, salaries in salary_by_tenure_bucket.items()
 'more than five': 79166.66666666667}
 
 
-#years_experience = [0.7, 1.9, 2.5, 4.2, 6.0, 6.5, 7.5, 8.1, 8.7, 10.0]
+""" #years_experience = [0.7, 1.9, 2.5, 4.2, 6.0, 6.5, 7.5, 8.1, 8.7, 10.0]
 
 def predict_paid_or_unpaid(years_experience):
     if years_experience < 3.0:
@@ -215,7 +215,7 @@ words_and_counts = Counter(word
 for word, count in words_and_counts.most_common():
     if count > 1:
         print(word,count)
-
+ """
 
     
 
