@@ -471,6 +471,7 @@ best_so_far : Optional[float] = None
 from typing import Dict, Iterable, Tuple
 counts: Dict[str, int] = {'data':1, 'science':2 }
 
+
 """ if lazy:
     evens: Iterable[int] = (x for x in range(10) in x % 2 == 0)
 else:
